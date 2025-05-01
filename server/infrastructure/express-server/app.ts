@@ -3,7 +3,7 @@ import cors from "cors";
 
 import cookieParser from "cookie-parser";
 import { helmetConfig } from "@/utils/helmet";
-
+import { errorHandler } from "@/infrastructure/middleware/errorHandler.middleware";
 
 export const startApp = () => {
 	const app = express();
@@ -21,14 +21,13 @@ export const startApp = () => {
     app.use(express.json());
 
     // Core Routes
-
+    // app.use()
     
 
     // Serve React Client
 
     // Error Handler Middleware
-
-    // app.use(errorHandler);
+    app.use(errorHandler);
 
 	return app;
 };
