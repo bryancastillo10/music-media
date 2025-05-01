@@ -1,11 +1,10 @@
 import { SignUpData, SignInData } from "@/auth/core/dto/auth";
 import { AuthenticationError, ValidationError } from "@/infrastructure/errors/customErrors";
-import { IAuthRepository } from "@/auth/core/interface/IAuthRepository";
+import { IAuthResponse } from "@/auth/core/interface/IAuthRepository";
 import { AuthRepository } from "@/auth/auth.repository";
 
 import { toHashPassword, validatePassword } from "@/utils/bcrypt";
-// import { verifyToken } from "@/utils/verifyToken";
-
+import { verifyToken } from "@/utils/verifyToken";
 
 export class AuthService {
     constructor(private readonly authRepository: AuthRepository) {
@@ -28,7 +27,7 @@ export class AuthService {
         return user;
     }
 
-    async signUp(signUpData: SignUpData) {
+    async signUp(signUpData: SignUpData): Promise<IAuthResponse>{
         const {  username, email, password, confirmPassword } = signUpData;
     
         // Missing Fields Validation
@@ -70,23 +69,23 @@ export class AuthService {
         return newUser;
     };
 
-    // async validateUserToken(token:string) {
-    //     try {
-    //         const decoded = verifyToken(token);
-    //         const user = await this.authRepository.findByUserId(decoded.userId);
-    //          if (user) {
-    //         return {
-    //             id: user.id,
-    //             username: user.username,
-    //             email: user.email,
-    //             profilePic: user.profilePic
-    //         };
-    //     }
-    //         return null;
-    //     } catch (error) {
-    //         throw new AuthenticationError("Invalid or expired token");
-    //     }
-    // }
+    async validateUserToken(token:string) {
+        try {
+            const decoded = verifyToken(token);
+            const user = await this.authRepository.findByUserId(decoded.userId);
+             if (user) {
+            return {
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                profilePic: user.profilePic
+            };
+        }
+            return null;
+        } catch (error) {
+            throw new AuthenticationError("Invalid or expired token");
+        }
+    }
 
 }
 
