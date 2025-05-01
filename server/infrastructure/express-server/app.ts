@@ -5,6 +5,8 @@ import cookieParser from "cookie-parser";
 import { helmetConfig } from "@/utils/helmet";
 import { errorHandler } from "@/infrastructure/middleware/errorHandler.middleware";
 
+import authRoutes from "@/auth/auth.route";
+
 export const startApp = () => {
 	const app = express();
 
@@ -21,7 +23,7 @@ export const startApp = () => {
     app.use(express.json());
 
     // Core Routes
-    // app.use()
+    app.use("/api/auth", authRoutes);
     
 
     // Serve React Client
