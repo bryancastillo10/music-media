@@ -3,7 +3,7 @@ import { AuthenticationError, ValidationError } from "@/infrastructure/errors/cu
 import { IAuthRepository } from "@/auth/core/interface/IAuthRepository";
 import { AuthRepository } from "@/auth/auth.repository";
 
-// import { toHashPassword, validatePassword } from "@/utils/bcrypt";
+import { toHashPassword, validatePassword } from "@/utils/bcrypt";
 // import { verifyToken } from "@/utils/verifyToken";
 
 
@@ -19,11 +19,11 @@ export class AuthService {
             throw new AuthenticationError("Cannot find an account with that email. Try again.");
         }
         
-        // const isPasswordMatched = await validatePassword(password, user.password as string);
+        const isPasswordMatched = await validatePassword(password, user.password as string);
     
-        // if (!isPasswordMatched) {
-        //     throw new AuthenticationError("Invalid password. Please try again.");
-        // };
+        if (!isPasswordMatched) {
+            throw new AuthenticationError("Invalid password. Please try again.");
+        };
 
         return user;
     }
@@ -60,8 +60,7 @@ export class AuthService {
         }
 
         // Password Hashing
-        // const hashedPassword = await toHashPassword(password);
-        const hashedPassword = "temporary password"
+        const hashedPassword = await toHashPassword(password);
         const newUser = await this.authRepository.createUser({
             ...signUpData,
             password: hashedPassword,
