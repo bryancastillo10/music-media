@@ -1,11 +1,10 @@
-import express, { Request, Response } from "express";
+import express from "express";
+import { authController } from "@/auth/auth.config";
 
 const router = express.Router();
 
-router.post("/signin", (req: Request, res: Response) => {
-	res.status(200).json({"message":"Helllo it is working"})
-});
-router.post("/signup", () => {});
-router.post("/logout", () => {});
+router.post("/signin", authController.signIn);
+router.post("/signup", authController.signUp);
+router.post("/logout", authController.signOut);
 
 export default router;
