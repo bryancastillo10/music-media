@@ -5,7 +5,6 @@ export interface SafeUser {
     password?: string;
     email: string;
     profilePic: string;
-    role: string;
   }
 
 export interface CustomRequest extends Request {
