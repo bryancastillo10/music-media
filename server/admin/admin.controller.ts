@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import { CustomRequest } from "@/infrastructure/middleware/type";
+import { AdminService } from "@/admin/core/service/admin.service";
 
 export class AdminController{
-	constructor(){
+	constructor(private readonly adminService: AdminService){
 		this.createSong = this.createSong.bind(this);
 		this.deleteSong = this.deleteSong.bind(this);
 		this.createAlbum = this.createAlbum.bind(this);
