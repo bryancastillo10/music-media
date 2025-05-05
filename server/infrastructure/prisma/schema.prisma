@@ -13,12 +13,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  ADMIN
+  USER
+}
+
+
 model User {
   id              String     @id @default(auto()) @map("_id") @db.ObjectId
   username        String     @unique
   email           String     @unique
   password        String
   profilePic      String?
+  role            UserRole
   resetCode       String?
   resetCodeExpiry DateTime?
 

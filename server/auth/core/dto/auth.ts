@@ -1,3 +1,5 @@
+import { UserRole } from "@prisma/client";
+
 export class SignInData {
   email!: string;
   password!: string;
@@ -9,4 +11,5 @@ export class SignUpData {
   password!: string;
   confirmPassword?: string;
   profilePicURL?: string;
+  role: UserRole = UserRole.USER;
 }

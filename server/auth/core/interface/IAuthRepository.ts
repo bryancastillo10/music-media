@@ -12,4 +12,5 @@ export interface IAuthResponse{
     password: string;
     email: string;
     profilePic: string | null;
+    role: string;
 }
