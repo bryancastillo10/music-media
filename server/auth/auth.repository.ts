@@ -18,7 +18,8 @@ export class AuthRepository implements IAuthRepository {
                 username: signUpData.username,
                 email: signUpData.email,
                 password: signUpData.password,
-                profilePic: signUpData.profilePicURL || defaultProfilePic
+                profilePic: signUpData.profilePicURL || defaultProfilePic,
+                role: signUpData.role
               },
             });
           
@@ -28,6 +29,7 @@ export class AuthRepository implements IAuthRepository {
               password: newUser.password,
               email: newUser.email,
               profilePic: newUser.profilePic!,
+              role: newUser.role
             };
         } catch (error) {
             if (error instanceof PrismaClientKnownRequestError) {
@@ -47,7 +49,8 @@ export class AuthRepository implements IAuthRepository {
                 username: true,
                 password: true,
                 email: true,
-                profilePic: true
+                profilePic: true,
+                role: true
               },
             });
 
@@ -60,7 +63,8 @@ export class AuthRepository implements IAuthRepository {
               username: user.username,
               password: user.password,
               email: user.email,
-              profilePic: user.profilePic!
+              profilePic: user.profilePic!,
+              role: user.role
             };
         } catch (error) {
             if (error instanceof PrismaClientKnownRequestError) {
@@ -80,7 +84,8 @@ export class AuthRepository implements IAuthRepository {
                 username: true,
                 password:true,
                 email: true,
-                profilePic: true
+                profilePic: true,
+                role: true
             }
         })
 

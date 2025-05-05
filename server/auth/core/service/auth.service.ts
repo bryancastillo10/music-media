@@ -63,7 +63,8 @@ export class AuthService {
         const newUser = await this.authRepository.createUser({
             ...signUpData,
             password: hashedPassword,
-            profilePicURL: ""
+            profilePicURL: "",
+            role: "USER"
         });
         
         return newUser;
@@ -78,7 +79,8 @@ export class AuthService {
                 id: user.id,
                 username: user.username,
                 email: user.email,
-                profilePic: user.profilePic
+                profilePic: user.profilePic,
+                role: user.role
             };
         }
             return null;
