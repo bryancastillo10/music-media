@@ -1,4 +1,5 @@
 import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
+import { UploadedFile } from "express-fileupload";
 
 cloudinary.config({
 	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -6,15 +7,15 @@ cloudinary.config({
 	api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-export const uploadImage = async(filePath:string): Promise<UploadApiResponse> => {
-	return await cloudinary.uploader.upload(filePath, {
+export const uploadImage = async(file: UploadedFile): Promise<UploadApiResponse> => {
+	return await cloudinary.uploader.upload(file.tempFilePath, {
 		resource_type: "image",
 		folder: "album_images"
 	});
 };
 
-export const uploadAudio = async(filePath:string): Promise<UploadApiResponse> => {
-	return await cloudinary.uploader.upload(filePath, {
+export const uploadAudio = async(file: UploadedFile): Promise<UploadApiResponse> => {
+	return await cloudinary.uploader.upload(file.tempFilePath, {
 		resource_type: "video",
 		folder: "songs_audio"
 	});
