@@ -35,7 +35,10 @@ export class AdminService {
 		});
 
 		if(songData.albumId){
-			// Repository to update song in an album (Song ID & Album ID)
+			await this.adminRepository.connectSongToAlbum(
+				{songId: newSong.id, 
+				 albumId: songData.albumId
+				})
 		};
 
 		return newSong;

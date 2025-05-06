@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
-import { IAdminRepository } from "@/admin/core/interface/IAdminRepository";
+import { IAdminRepository, IConnectSongAlbum } from "@/admin/core/interface/IAdminRepository";
 import { AlbumData } from "@/admin/core/dto/album";
 import { SongData } from "@/admin/core/dto/song";
 
@@ -40,4 +40,15 @@ export class AdminRepository implements IAdminRepository {
 	deleteAlbum(): Promise<void> {
 		throw new Error("Method not implemented.");
 	}
+
+	async connectSongToAlbum({songId, albumId}: IConnectSongAlbum<string>) {
+		await this.prisma.album.update({
+			where: { id: albumId },
+			data: {
+				songs: {
+					connect: { id: songId }
+				}
+			}
+		})
+	};
 }

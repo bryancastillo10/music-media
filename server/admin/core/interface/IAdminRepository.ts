@@ -16,3 +16,8 @@ export interface SongRequest {
 	audioFile: UploadedFile;
 	imageFile: UploadedFile;
 }
+
+export interface IConnectSongAlbum<T> {
+	songId: T;
+	albumId: T;
+}
