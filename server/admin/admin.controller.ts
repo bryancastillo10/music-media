@@ -15,9 +15,8 @@ export class AdminController{
 	async createSong(req: CustomRequest, res: Response, next: NextFunction) {
 		try{
 			const userId = req.user?.id;
-            if (!userId) {
-                throw new Error("User ID is undefined. Ensure auth middleware is applied");
-            }
+
+			await this.adminService.verifyRole(userId);
 
 			const songData = JSON.parse(req.body.songData);
 			const audioFile = req.files?.audioFile as UploadedFile;

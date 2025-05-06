@@ -8,6 +8,14 @@ import { SongData } from "@/admin/core/dto/song";
 export class AdminRepository implements IAdminRepository {
 	private prisma = new PrismaClient();
 
+	async findUserById(userId: string) {
+		const user = await this.prisma.user.findUnique({
+			where: { id: userId },
+			select: { role: true }
+		});	
+
+		return user?.role === "ADMIN";
+	};
 
 	async createSong(songData: SongData): Promise<SongData> {
 		const song = await this.prisma.song.create({
