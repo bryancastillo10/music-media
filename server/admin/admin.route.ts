@@ -4,8 +4,6 @@ import { adminController } from "@/admin/admin.config";
 
 const router = express.Router();
 
-router.get("/check", ()=>{});
-
 router.post("/songs",protectRoute, adminController.createSong);
 router.delete("/songs/:id", protectRoute,adminController.deleteSong);
 
