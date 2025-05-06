@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { helmetConfig } from "@/utils/helmet";
 import { errorHandler } from "@/infrastructure/middleware/errorHandler.middleware";
+import { fileUploadMiddleware } from "@/infrastructure/middleware/upload.middleware";
 
 import authRoutes from "@/auth/auth.route";
 
@@ -16,6 +17,7 @@ export const startApp = () => {
         origin: "http://localhost:5173",
         credentials: true
     }));
+    app.use(fileUploadMiddleware);
     
     // Body Parser Middleware
     app.use(cookieParser());
