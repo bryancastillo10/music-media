@@ -1,9 +1,11 @@
 import { AdminRepository } from "@/admin/admin.repository";
 
+import { SongRequest } from "@/admin/core/interface/IAdminRepository";
+
 export class AdminService {
 	constructor(private readonly adminRepository: AdminRepository){ }
 
-	async createSong() {
+	async createSong({songData, audioFile, imageFile}: SongRequest) {
 
 	}
 

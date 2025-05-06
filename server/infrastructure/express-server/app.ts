@@ -7,6 +7,7 @@ import { errorHandler } from "@/infrastructure/middleware/errorHandler.middlewar
 import { fileUploadMiddleware } from "@/infrastructure/middleware/upload.middleware";
 
 import authRoutes from "@/auth/auth.route";
+import adminRoutes from "@/admin/admin.route";
 
 export const startApp = () => {
 	const app = express();
@@ -26,6 +27,7 @@ export const startApp = () => {
 
     // Core Routes
     app.use("/api/auth", authRoutes);
+    app.use("/api/admin", adminRoutes);
     
 
     // Serve React Client

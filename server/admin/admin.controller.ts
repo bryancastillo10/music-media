@@ -1,4 +1,6 @@
 import { Response, NextFunction } from "express";
+import { UploadedFile } from "express-fileupload";
+
 import { CustomRequest } from "@/infrastructure/middleware/type";
 import { AdminService } from "@/admin/core/service/admin.service";
 
@@ -17,7 +19,13 @@ export class AdminController{
                 throw new Error("User ID is undefined. Ensure auth middleware is applied");
             }
 
+			const songData = JSON.parse(req.body.songData);
+			const audioFile = req.files?.audioFile as UploadedFile;
+			const imageFile = req.files?.imageFile as UploadedFile;
+
+			const newSong = await this.adminService.createSong({songData, audioFile, imageFile});
 		
+			res.status(201).json({ message:"New song has been added", song: newSong});
 		}
 		catch(error){
 			next(error);

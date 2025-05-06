@@ -1,9 +1,17 @@
+import { UploadedFile } from "express-fileupload";
+
 import { SongData } from "@/admin/core/dto/song";
 import { AlbumData } from "@/admin/core/dto/album";
 
 export interface IAdminRepository {
-	createSong(): Promise<SongData>;
+	createSong(songData: SongData): Promise<SongData>;
 	deleteSong(): Promise<void>;
 	createAlbum(): Promise<AlbumData>;
 	deleteAlbum(): Promise<void>;
+}
+
+export interface SongRequest {
+	songData: SongData;
+	audioFile: UploadedFile;
+	imageFile: UploadedFile;
 }
