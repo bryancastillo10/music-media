@@ -14,10 +14,6 @@ export class AdminController{
 
 	async createSong(req: CustomRequest, res: Response, next: NextFunction) {
 		try{
-			const userId = req.user?.id;
-
-			await this.adminService.verifyRole(userId);
-
 			const songData = JSON.parse(req.body.songData);
 			const audioFile = req.files?.audioFile as UploadedFile;
 			const imageFile = req.files?.imageFile as UploadedFile;
@@ -32,7 +28,12 @@ export class AdminController{
 	}
 
 	async deleteSong(req: CustomRequest, res: Response, next: NextFunction) {
+		try{
 
+		}
+		catch(error){
+			next(error);
+		}	
 	}
 
 	async createAlbum(req: CustomRequest, res: Response, next: NextFunction) {
