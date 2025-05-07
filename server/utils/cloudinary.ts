@@ -30,3 +30,9 @@ export const deleteFile = async (
 	});
 };
 
+export const extractPublicId = (url: string) => {
+  const parts = url.split('/');
+  const publicIdWithExtension = parts[parts.length - 1];
+
+  return publicIdWithExtension.split('.')[0];
+};

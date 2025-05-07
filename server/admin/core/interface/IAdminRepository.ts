@@ -9,6 +9,7 @@ export interface IAdminRepository {
 	createAlbum(): Promise<AlbumData>;
 	deleteAlbum(): Promise<void>;
 	findUserById(userId:string): Promise<boolean>;
+	getSongAndUpdateAlbum(songId: string): Promise<Partial<SongData>>;
 }
 
 export interface SongRequest {
