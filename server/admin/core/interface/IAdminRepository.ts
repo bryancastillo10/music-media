@@ -5,10 +5,11 @@ import { AlbumData } from "@/admin/core/dto/album";
 
 export interface IAdminRepository {
 	createSong(songData: SongData): Promise<SongData>;
-	deleteSong(): Promise<void>;
+	deleteSong(songId:string): Promise<void>;
 	createAlbum(): Promise<AlbumData>;
 	deleteAlbum(): Promise<void>;
 	findUserById(userId:string): Promise<boolean>;
+	getSongAndUpdateAlbum(songId: string): Promise<Partial<SongData>>;
 }
 
 export interface SongRequest {
