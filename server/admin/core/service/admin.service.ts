@@ -1,7 +1,7 @@
 import { AdminRepository } from "@/admin/admin.repository";
 
 import { SongRequest } from "@/admin/core/interface/IAdminRepository";
-import { NotFoundError, AuthorizationError } from "@/infrastructure/errors/customErrors";
+import { NotFoundError } from "@/infrastructure/errors/customErrors";
 
 
 export class AdminService {
@@ -9,7 +9,7 @@ export class AdminService {
 
 	async createSong({songData, audioFile, imageFile}: SongRequest) {
 		if(!audioFile || !imageFile) {
-			throw new NotFoundError("Audio & Image Files must be provided");
+			throw new NotFoundError("Audio & Image Files");
 		};
 
 		const { uploadImage, uploadAudio } = await import("@/utils/cloudinary");
@@ -33,8 +33,16 @@ export class AdminService {
 		return newSong;
 	}
 
-	async deleteSong() {
+	async deleteSong(songId:string) {
+		if(!songId){
+			throw new NotFoundError("Song ID");
+		}
 
+		await this.adminRepository.deleteSong(songId)
+
+		return {
+			"message":"Song has been removed successfully"
+		}
 	}
 	
 	async createAlbum(){

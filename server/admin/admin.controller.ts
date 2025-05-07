@@ -29,7 +29,11 @@ export class AdminController{
 
 	async deleteSong(req: CustomRequest, res: Response, next: NextFunction) {
 		try{
+			const songId = req.params.id;
 
+			const message = await this.adminService.deleteSong(songId);
+
+			res.status(200).json({message})
 		}
 		catch(error){
 			next(error);
@@ -37,10 +41,20 @@ export class AdminController{
 	}
 
 	async createAlbum(req: CustomRequest, res: Response, next: NextFunction) {
+		try{
 
+		}
+		catch(error){
+			next(error);
+		}	
 	}
 
 	async deleteAlbum(req: CustomRequest, res: Response, next: NextFunction) {
+		try{
 
+		}
+		catch(error){
+			next(error);
+		}	
 	}
 }
