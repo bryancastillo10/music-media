@@ -1,8 +1,9 @@
 
 import { FetchSongRequest, FetchMyPlaylist } from "@/song/core/interface/ISongRepository";
+import { SongRepository } from "@/song/song.repository";
 
 export class SongService {
-	constructor(){
+	constructor(private readonly songRepository: SongRepository){
 
 	};
 

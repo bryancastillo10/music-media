@@ -1,8 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 
-export class SongController {
-	constructor() {
+import { SongService } from "@/song/core/service/song.service";
 
+export class SongController {
+	constructor(private readonly songService: SongService) {
+		this.fetchAllSongs = this.fetchAllSongs.bind(this);
+		this.fetchFeatured = this.fetchFeatured.bind(this);
+		this.fetchMyPlaylist = this.fetchMyPlaylist.bind(this);
+		this.fetchTrending = this.fetchTrending.bind(this);
 	}
 
 	async fetchAllSongs(req: Request, res: Response, next: NextFunction){	
