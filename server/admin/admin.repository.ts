@@ -71,9 +71,29 @@ export class AdminRepository implements IAdminRepository {
       		throw error;
     	}
 	}
-	createAlbum(): Promise<AlbumData> {
-		throw new Error("Method not implemented.");
+
+	async createAlbum(albumData: AlbumData): Promise<AlbumData> {
+		try{
+			const album = await this.prisma.album.create({
+				data: {
+					title: albumData.title,
+					artist: albumData.artist,
+					releaseYear: albumData.releaseYear,
+					imageUrl: albumData.imageUrl
+				}
+			});
+			return album;
+		}
+		catch (error) {
+      		if (error instanceof PrismaClientKnownRequestError) {
+        		console.error(error.message);
+        		throw new DatabaseError("Database error at createSite method");
+      		}
+      		throw error;
+    	}
 	}
+
+
 	deleteAlbum(): Promise<void> {
 		throw new Error("Method not implemented.");
 	}

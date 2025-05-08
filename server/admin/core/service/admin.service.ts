@@ -1,6 +1,6 @@
 import { AdminRepository } from "@/admin/admin.repository";
 
-import { SongRequest } from "@/admin/core/interface/IAdminRepository";
+import { AlbumRequest, SongRequest } from "@/admin/core/interface/IAdminRepository";
 import { NotFoundError } from "@/infrastructure/errors/customErrors";
 
 
@@ -45,8 +45,25 @@ export class AdminService {
 		}
 	}
 	
-	async createAlbum(){
+	async createAlbum({albumData, imageFile}: AlbumRequest){
+		if(!imageFile){
+			throw new NotFoundError("Image File");
+		};
 
+		if(!albumData) {
+			throw new NotFoundError("Album Information");
+		};
+
+		const { uploadImage } = await import("@/utils/cloudinary");
+
+		const imageUpload = await uploadImage(imageFile);
+
+		const newAlbum = await this.adminRepository.createAlbum({
+			...albumData,
+			imageUrl: imageUpload.secure_url
+		});
+
+		return newAlbum;
 	}
 
 	async deleteAlbum(){

@@ -42,7 +42,12 @@ export class AdminController{
 
 	async createAlbum(req: CustomRequest, res: Response, next: NextFunction) {
 		try{
+			const albumData = JSON.parse(req.body.albumData);
+			const imageFile = req.files?.imageFile as UploadedFile;
 
+			const newAlbum = await this.adminService.createAlbum({albumData, imageFile});
+
+			res.status(201).json({message:"A New Music Album has been created", album: newAlbum});
 		}
 		catch(error){
 			next(error);

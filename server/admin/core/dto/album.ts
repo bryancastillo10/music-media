@@ -3,5 +3,5 @@ export class AlbumData {
 	title!:string;
 	artist!:string;
 	imageUrl!:string;
-	releaseYear!:string;
+	releaseYear!:number;
 }
