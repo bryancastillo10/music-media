@@ -42,26 +42,15 @@ export class AdminRepository implements IAdminRepository {
 		}
 	};
 
-	async deleteSong(songId:string): Promise<void> {
+	async deleteSong(songId:string): Promise<Partial<SongData>> {
 		try{
 			const song = await this.getSongAndUpdateAlbum(songId);
-
-			const { deleteFile, extractPublicId } = await import("@/utils/cloudinary");
-
-			const imageId = extractPublicId(song.imageUrl);
-			const audioId = extractPublicId(song.audioUrl);
-
-			if(imageId){
-				await deleteFile(imageId, "image")
-			};
-
-			if(audioId) {
-				await deleteFile(audioId, "video")
-			};
 
 			await this.prisma.song.delete({
 				where: {id : songId }
 			});
+
+			return song;
 		}
 		catch (error) {
       		if (error instanceof PrismaClientKnownRequestError) {
