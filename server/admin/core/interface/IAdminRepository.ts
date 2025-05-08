@@ -7,7 +7,7 @@ export interface IAdminRepository {
 	createSong(songData: SongData): Promise<SongData>;
 	deleteSong(songId:string): Promise<void>;
 	createAlbum(albumData: AlbumData): Promise<AlbumData>;
-	deleteAlbum(): Promise<void>;
+	deleteAlbum(albumId:string): Promise<void>;
 	findUserById(userId:string): Promise<boolean>;
 	getSongAndUpdateAlbum(songId: string): Promise<Partial<SongData>>;
 }

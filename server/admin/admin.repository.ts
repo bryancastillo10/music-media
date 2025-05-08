@@ -36,7 +36,7 @@ export class AdminRepository implements IAdminRepository {
 		catch(error){
       		if (error instanceof PrismaClientKnownRequestError) {
         		console.error(error.message);
-        		throw new DatabaseError("Database error at createSite method");
+        		throw new DatabaseError("Database error at createSong method");
       		}
       		throw error;
 		}
@@ -66,7 +66,7 @@ export class AdminRepository implements IAdminRepository {
 		catch (error) {
       		if (error instanceof PrismaClientKnownRequestError) {
         		console.error(error.message);
-        		throw new DatabaseError("Database error at createSite method");
+        		throw new DatabaseError("Database error at deleteSong method");
       		}
       		throw error;
     	}
@@ -87,15 +87,33 @@ export class AdminRepository implements IAdminRepository {
 		catch (error) {
       		if (error instanceof PrismaClientKnownRequestError) {
         		console.error(error.message);
-        		throw new DatabaseError("Database error at createSite method");
+        		throw new DatabaseError("Database error at createAlbum method");
       		}
       		throw error;
     	}
 	}
 
 
-	deleteAlbum(): Promise<void> {
-		throw new Error("Method not implemented.");
+	async deleteAlbum(albumId: string): Promise<void> {
+		try{
+
+			await this.prisma.song.deleteMany({
+				where: { albumId }
+			});
+
+			await this.prisma.album.delete({
+				where: { id: albumId}
+			});
+
+
+		}
+		catch(error){
+			if(error instanceof PrismaClientKnownRequestError) {
+				console.error(error.message);
+				throw new DatabaseError("Database error at deleteAlbum")
+			}
+			throw error;
+		}
 	}
 
 	async connectSongToAlbum({songId, albumId}: IConnectSongAlbum<string>) {

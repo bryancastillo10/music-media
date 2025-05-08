@@ -66,7 +66,15 @@ export class AdminService {
 		return newAlbum;
 	}
 
-	async deleteAlbum(){
+	async deleteAlbum(albumId:string){
+		if(!albumId){
+			throw new NotFoundError("Album ID");
+		}
 
+		await this.adminRepository.deleteAlbum(albumId);
+
+		return {
+			"message": "The album has been deleted successfully"
+		}
 	}
 }
