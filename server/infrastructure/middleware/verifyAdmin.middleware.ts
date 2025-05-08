@@ -19,6 +19,7 @@ export const verifyAdmin = async (req: CustomRequest, res: Response, next: NextF
 		if(!isAdmin) {
 			throw new AuthorizationError("Role Not Allowed");
 		};
+		next();
 	}
 	catch(error){
 		next(error)

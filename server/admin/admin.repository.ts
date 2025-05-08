@@ -6,7 +6,6 @@ import { IAdminRepository, IConnectSongAlbum } from "@/admin/core/interface/IAdm
 import { AlbumData } from "@/admin/core/dto/album";
 import { SongData } from "@/admin/core/dto/song";
 
-import { extractPublicId, deleteFile } from "@/utils/cloudinary";
 
 export class AdminRepository implements IAdminRepository {
 	private prisma = new PrismaClient();
@@ -47,15 +46,17 @@ export class AdminRepository implements IAdminRepository {
 		try{
 			const song = await this.getSongAndUpdateAlbum(songId);
 
-			const imagePublicId = extractPublicId(song.imageUrl);
-			const audioPublicId = extractPublicId(song.audioUrl);
+			const { deleteFile, extractPublicId } = await import("@/utils/cloudinary");
 
-			if(imagePublicId){
-				await deleteFile(imagePublicId, "image")
+			const imageId = extractPublicId(song.imageUrl);
+			const audioId = extractPublicId(song.audioUrl);
+
+			if(imageId){
+				await deleteFile(imageId, "image")
 			};
 
-			if(audioPublicId) {
-				await deleteFile(audioPublicId, "video")
+			if(audioId) {
+				await deleteFile(audioId, "video")
 			};
 
 			await this.prisma.song.delete({
