@@ -6,7 +6,6 @@ import { IAdminRepository, IConnectSongAlbum } from "@/admin/core/interface/IAdm
 import { AlbumData } from "@/admin/core/dto/album";
 import { SongData } from "@/admin/core/dto/song";
 
-import { extractPublicId, deleteFile } from "@/utils/cloudinary";
 
 export class AdminRepository implements IAdminRepository {
 	private prisma = new PrismaClient();
@@ -37,44 +36,73 @@ export class AdminRepository implements IAdminRepository {
 		catch(error){
       		if (error instanceof PrismaClientKnownRequestError) {
         		console.error(error.message);
-        		throw new DatabaseError("Database error at createSite method");
+        		throw new DatabaseError("Database error at createSong method");
       		}
       		throw error;
 		}
 	};
 
-	async deleteSong(songId:string): Promise<void> {
+	async deleteSong(songId:string): Promise<Partial<SongData>> {
 		try{
 			const song = await this.getSongAndUpdateAlbum(songId);
-
-			const imagePublicId = extractPublicId(song.imageUrl);
-			const audioPublicId = extractPublicId(song.audioUrl);
-
-			if(imagePublicId){
-				await deleteFile(imagePublicId, "image")
-			};
-
-			if(audioPublicId) {
-				await deleteFile(audioPublicId, "video")
-			};
 
 			await this.prisma.song.delete({
 				where: {id : songId }
 			});
+
+			return song;
 		}
 		catch (error) {
       		if (error instanceof PrismaClientKnownRequestError) {
         		console.error(error.message);
-        		throw new DatabaseError("Database error at createSite method");
+        		throw new DatabaseError("Database error at deleteSong method");
       		}
       		throw error;
     	}
 	}
-	createAlbum(): Promise<AlbumData> {
-		throw new Error("Method not implemented.");
+
+	async createAlbum(albumData: AlbumData): Promise<AlbumData> {
+		try{
+			const album = await this.prisma.album.create({
+				data: {
+					title: albumData.title,
+					artist: albumData.artist,
+					releaseYear: albumData.releaseYear,
+					imageUrl: albumData.imageUrl
+				}
+			});
+			return album;
+		}
+		catch (error) {
+      		if (error instanceof PrismaClientKnownRequestError) {
+        		console.error(error.message);
+        		throw new DatabaseError("Database error at createAlbum method");
+      		}
+      		throw error;
+    	}
 	}
-	deleteAlbum(): Promise<void> {
-		throw new Error("Method not implemented.");
+
+
+	async deleteAlbum(albumId: string): Promise<void> {
+		try{
+
+			await this.prisma.song.deleteMany({
+				where: { albumId }
+			});
+
+			await this.prisma.album.delete({
+				where: { id: albumId}
+			});
+
+
+		}
+		catch(error){
+			if(error instanceof PrismaClientKnownRequestError) {
+				console.error(error.message);
+				throw new DatabaseError("Database error at deleteAlbum")
+			}
+			throw error;
+		}
 	}
 
 	async connectSongToAlbum({songId, albumId}: IConnectSongAlbum<string>) {

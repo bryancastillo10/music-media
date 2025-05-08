@@ -22,17 +22,15 @@ export const uploadAudio = async(file: UploadedFile): Promise<UploadApiResponse>
 };
 
 export const deleteFile = async (
-	publicId: string, 
-	resourceType: "image" | "video" = "image"
+	publicId:string, 
+	resourceType: "image" | "video" | "raw" = "raw"
 	) => {
 	return await cloudinary.uploader.destroy(publicId, {
 		resource_type: resourceType
 	});
 };
 
-export const extractPublicId = (url: string) => {
-  const parts = url.split('/');
-  const publicIdWithExtension = parts[parts.length - 1];
-
-  return publicIdWithExtension.split('.')[0];
+export const extractPublicId = (url: string): string | null => {
+  const match = url.match(/upload\/(?:v\d+\/)?(.+?)\.[a-z0-9]+$/i);
+  return match ? match[1] : null;
 };

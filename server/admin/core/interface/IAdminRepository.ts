@@ -5,9 +5,9 @@ import { AlbumData } from "@/admin/core/dto/album";
 
 export interface IAdminRepository {
 	createSong(songData: SongData): Promise<SongData>;
-	deleteSong(songId:string): Promise<void>;
-	createAlbum(): Promise<AlbumData>;
-	deleteAlbum(): Promise<void>;
+	deleteSong(songId:string): Promise<Partial<SongData>>;
+	createAlbum(albumData: AlbumData): Promise<AlbumData>;
+	deleteAlbum(albumId:string): Promise<void>;
 	findUserById(userId:string): Promise<boolean>;
 	getSongAndUpdateAlbum(songId: string): Promise<Partial<SongData>>;
 }
@@ -21,4 +21,9 @@ export interface SongRequest {
 export interface IConnectSongAlbum<T> {
 	songId: T;
 	albumId: T;
+}
+
+export interface AlbumRequest {
+	albumData: AlbumData;
+	imageFile: UploadedFile;
 }

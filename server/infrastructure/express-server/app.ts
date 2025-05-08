@@ -8,6 +8,7 @@ import { fileUploadMiddleware } from "@/infrastructure/middleware/upload.middlew
 
 import authRoutes from "@/auth/auth.route";
 import adminRoutes from "@/admin/admin.route";
+import songRoutes from "@/song/song.route";
 
 export const startApp = () => {
 	const app = express();
@@ -28,6 +29,7 @@ export const startApp = () => {
     // Core Routes
     app.use("/api/auth", authRoutes);
     app.use("/api/admin", adminRoutes);
+    app.use("/api/song", songRoutes);
     
 
     // Serve React Client

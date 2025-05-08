@@ -1,7 +1,6 @@
-import { Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 import { UploadedFile } from "express-fileupload";
 
-import { CustomRequest } from "@/infrastructure/middleware/type";
 import { AdminService } from "@/admin/core/service/admin.service";
 
 export class AdminController{
@@ -12,7 +11,7 @@ export class AdminController{
 		this.deleteAlbum = this.deleteAlbum.bind(this);
 	}
 
-	async createSong(req: CustomRequest, res: Response, next: NextFunction) {
+	async createSong(req: Request, res: Response, next: NextFunction) {
 		try{
 			const songData = JSON.parse(req.body.songData);
 			const audioFile = req.files?.audioFile as UploadedFile;
@@ -27,7 +26,7 @@ export class AdminController{
 		}
 	}
 
-	async deleteSong(req: CustomRequest, res: Response, next: NextFunction) {
+	async deleteSong(req: Request, res: Response, next: NextFunction) {
 		try{
 			const songId = req.params.id;
 
@@ -40,18 +39,27 @@ export class AdminController{
 		}	
 	}
 
-	async createAlbum(req: CustomRequest, res: Response, next: NextFunction) {
+	async createAlbum(req: Request, res: Response, next: NextFunction) {
 		try{
+			const albumData = JSON.parse(req.body.albumData);
+			const imageFile = req.files?.imageFile as UploadedFile;
 
+			const newAlbum = await this.adminService.createAlbum({albumData, imageFile});
+
+			res.status(201).json({message:"A New Music Album has been created", album: newAlbum});
 		}
 		catch(error){
 			next(error);
 		}	
 	}
 
-	async deleteAlbum(req: CustomRequest, res: Response, next: NextFunction) {
+	async deleteAlbum(req: Request, res: Response, next: NextFunction) {
 		try{
+			const albumId = req.params.id;
 
+			const message = await this.adminService.deleteAlbum(albumId);
+
+			res.status(200).json({message});
 		}
 		catch(error){
 			next(error);
