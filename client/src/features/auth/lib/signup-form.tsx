@@ -21,7 +21,7 @@ export function SignupForm({
               <div className="flex size-8 items-center justify-center rounded-md">
                 <AudioLines className="size-6" />
               </div>
-              <span className="sr-only">StrumIt AudioLines App</span>
+              <span className="sr-only">StrumIt App</span>
             </a>
             <h1 className="text-xl font-bold">Register Now to Get Started</h1>
             
